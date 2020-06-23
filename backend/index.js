@@ -27,7 +27,7 @@ io.on("connection", (s) => {
     s.join(user.room);
     io.to(user.room).emit("roomupdate", {
       room: user.room,
-      users: getUserInRoom(user.room),
+      users: uh.getUserInRoom(user.room),
     });
     callback();
   });
@@ -44,9 +44,9 @@ io.on("connection", (s) => {
       user: "admin",
       text: `${user.name} left the room`,
     });
-    io.to(user.room).emit("message", {
+    io.to(user.room).emit("roomupdate", {
       room: user.room,
-      users: getUserInRoom(user.room),
+      users: uh.getUserInRoom(user.room),
     });
   });
 });

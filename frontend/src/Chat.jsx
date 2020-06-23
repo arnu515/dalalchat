@@ -3,6 +3,7 @@ import qs from "querystring";
 import io from "socket.io-client";
 import ChatHeader from "./ChatHeader";
 import Messages from "./Messages";
+import RoomInfo from "./RoomInfo";
 
 let s;
 export default ({ location }) => {
@@ -10,6 +11,7 @@ export default ({ location }) => {
   let [r, sr] = useState("");
   let [message, setMessage] = useState("");
   let [messages, setMessages] = useState([]);
+  let [users, setUsers] = useState([]);
   let serverUrl = "localhost:5001";
 
   useEffect(() => {
@@ -31,6 +33,12 @@ export default ({ location }) => {
     });
   }, [messages]);
 
+  useEffect(() => {
+    s.on("roomupdate", ({ users: u }) => {
+      setUsers(u);
+    });
+  }, [users]);
+
   const sendMessage = (e) => {
     e.preventDefault();
     if (message) {
@@ -41,22 +49,27 @@ export default ({ location }) => {
   };
 
   return (
-    <div className="w3-container">
+    <div>
+      <RoomInfo room={r} users={users} />
       <ChatHeader room={r} />
-      <Messages messages={messages} name={n} />
-      <p>
-        <input
-          className="w3-input"
-          value={message}
-          placeholder="Enter message..."
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              sendMessage(e);
-            }
-          }}
-        />
-      </p>
+      <br />
+      <div className="w3-container">
+        <Messages messages={messages} name={n} />
+        <p>
+          <input
+            className="w3-input"
+            value={message}
+            autoFocus={true}
+            placeholder="Enter message..."
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                sendMessage(e);
+              }
+            }}
+          />
+        </p>
+      </div>
     </div>
   );
 };

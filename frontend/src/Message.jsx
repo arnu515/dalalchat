@@ -7,11 +7,14 @@ export default ({ message: { user, text }, name: tn }) => {
 
   return isSentByCurrent ? (
     <li className="w3-blue">
-      {emoji.emojify(text)} <span class="w3-tiny w3-opacity">by YOU</span>
+      {emoji.emojify(text)} <span className="w3-tiny w3-opacity">by YOU</span>
     </li>
+  ) : user === "admin" ? (
+    <li className="w3-green w3-center">{text}</li>
   ) : (
-    <li>
-      {emoji.emojify(text)} <span class="w3-tiny w3-opacity">by {user}</span>
+    <li className="w3-light-gray">
+      {emoji.emojify(text)}{" "}
+      <span className="w3-tiny w3-opacity">by {user}</span>
     </li>
   );
 };
