@@ -2,6 +2,7 @@ const express = require("express");
 const s = require("socket.io");
 const http = require("http");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const server = http.createServer(app);
@@ -11,6 +12,7 @@ const uh = require("./users");
 const { getUserInRoom } = require("./users");
 
 app.use(cors());
+app.use(express.static(path.join(__dirname, "build")));
 app.use(r);
 
 io.on("connection", (s) => {
@@ -53,7 +55,7 @@ io.on("connection", (s) => {
   });
 });
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 3000;
 server.listen(port, () => {
   console.log("Server running on port " + port);
 });
