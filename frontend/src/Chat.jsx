@@ -49,6 +49,14 @@ export default ({ location }) => {
     if (message) {
       s.emit("messagesent", message, () => {
         setMessage("");
+        document.getElementById("messageinput").disabled = true;
+        document.getElementById("messageinput").placeholder =
+          "Wait 5 seconds before sending message";
+        setTimeout(() => {
+          document.getElementById("messageinput").disabled = false;
+          document.getElementById("messageinput").placeholder =
+            "Enter message...";
+        }, 5000);
       });
     }
   };
@@ -65,6 +73,7 @@ export default ({ location }) => {
             className="w3-input"
             value={message}
             autoFocus={true}
+            id="messageinput"
             placeholder="Enter message..."
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={(e) => {
