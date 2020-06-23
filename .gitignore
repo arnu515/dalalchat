@@ -1,2 +1,4 @@
 node_modules
 backend/build
+backend/.gitignore
+backend/Procfile
