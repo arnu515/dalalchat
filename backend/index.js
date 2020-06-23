@@ -1,6 +1,7 @@
 const express = require("express");
 const s = require("socket.io");
 const http = require("http");
+const cors = require("cors");
 
 const app = express();
 const server = http.createServer(app);
@@ -9,6 +10,7 @@ const r = require("./router");
 const uh = require("./users");
 const { getUserInRoom } = require("./users");
 
+app.use(cors());
 app.use(r);
 
 io.on("connection", (s) => {
