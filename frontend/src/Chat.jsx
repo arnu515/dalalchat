@@ -12,7 +12,7 @@ export default ({ location }) => {
   let [message, setMessage] = useState("");
   let [messages, setMessages] = useState([]);
   let [users, setUsers] = useState([]);
-  let serverUrl = "localhost:5001";
+  let serverUrl = "/";
 
   useEffect(() => {
     const data = qs.parse(location.search);
@@ -20,7 +20,12 @@ export default ({ location }) => {
     sn(data["?name"]);
     sr(data.room);
 
-    s.emit("join", { name: data["?name"], room: data.room }, () => {});
+    s.emit("join", { name: data["?name"], room: data.room }, (error) => {
+      if (error) {
+        alert(error);
+        window.location = "/";
+      }
+    });
     return () => {
       s.emit("disconnect");
       s.off();
